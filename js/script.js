@@ -173,6 +173,8 @@ function loadTranscription(id) {
         transcriptionContent.value = transcription.content;
         transcriptionNotes.value = transcription.notes;
         transcriptionAudio.src = transcription.audioPath;
+    }else{
+        clearTranscription();
     }
     listTranscriptions();
 }
