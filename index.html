@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Bootstrap demo</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" href="css/styles.css" />
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="d-flex gap-4 border-bottom border-1 p-2">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#transcriptionModal">Nueva Transcripcion</button>
+
+                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">Ver Transcripciones</button>
+            </div>
+            <div class="row">
+                <div class="col-12 align-items-center text-center mb-4">
+                    <input type="hidden" name="id" id="transcription-id">
+                    <h3 id="transcription-title">sadsa</h3>
+                    <div class="controls">
+                        <div class="audio-player d-flex gap-2">
+                            <audio id="transcription-audio" class="w-100" controls>
+                                <source src="" type="audio/*" />
+                                Tu navegador no soporta el elemento de audio.
+                            </audio>
+
+                            <!-- Controles personalizados -->
+                            <div class="d-flex justify-content-center gap-3 border border-1">
+                                <button id="rewind" class="btn btn-outline-primary">Retroceder 5s</button>
+                                <button id="forward" class="btn btn-outline-primary">Avanzar 5s</button>
+                                <div class="form-floating w-auto">
+                                    <select name="speed" id="speed" class="form-select">
+                                        <option value="0.5">0.5x</option>
+                                        <option value="1" selected>1x</option>
+                                        <option value="1.5">1.5x</option>
+                                        <option value="2">2x</option>
+                                    </select>
+                                    <label for="speed">Velocidad de Reproduccion</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Notas de la transcripión" name="notes" id="transcription-notes"></textarea>
+                        <label for="transcription-notes">Notas de la transcripión</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Notas de la transcripión" name="notes" id="transcription-content"></textarea>
+                        <label for="transcription-content">Contenido de la transcripión</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Transcripciones</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="">
+                    <div class="list-group" id="transcriptions-list">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="transcriptionModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="transcriptionModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="transcriptionModalLabel">Nueva Transcripcion</h1>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" id="transcription-form">
+                            <!-- nombre de la transcripcion -->
+                            <div class="mb-3">
+                                <label for="form-name" class="form-label">Nombre de la transcripcion</label>
+                                <input type="text" class="form-control" id="form-name" placeholder="Escribe el nombre de la transcripcion" />
+                            </div>
+                            <!-- Notas de la transcripcion -->
+                            <div class="mb-3">
+                                <label for="form-notes" class="form-label">Notas de la transcripcion</label>
+                                <textarea class="form-control" id="form-notes" placeholder="Escribe las notas de la transcripcion"></textarea>
+                            </div>
+                            <!-- Contenido de la transcripcion -->
+                            <div class="mb-3">
+                                <label for="form-content" class="form-label">Contenido de la transcripcion</label>
+                                <textarea class="form-control" id="form-content" placeholder="Escribe el contenido de la transcripcion"></textarea>
+                            </div>
+                            <p>Ingrese la url del audio</p>
+                            <!-- Url del audio -->
+                            <div class="mb-3">
+                                <label for="form-url" class="form-label">Url del audio</label>
+                                <input type="text" class="form-control" id="form-url" placeholder="Escribe la url del audio" />
+                            </div>
+                            <p>Ó Selecciona un archivo que se cargara temporalmente hasta que recargues el navegador</p>
+                            <!-- Archivo de la transcripcion -->
+                            <div class="mb-3">
+                                <label for="form-file" class="form-label">Archivo de la transcripcion</label>
+                                <input class="form-control" type="file" accept="audio/*" id="form-file" />
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="cancelModal" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="button" id="saveModal" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="js/transcription.js"></script>
+        <script src="js/script.js"></script>
+    </body>
+</html>

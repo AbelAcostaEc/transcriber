@@ -1,0 +1,15 @@
+#speed {
+    min-width: 220px;
+}
+
+#transcription-notes,
+#transcription-content {
+    resize: none;
+    height: 60vh;
+    font-size: 20px;
+}
+
+.list-group-item.active {
+    background-color: #c6e1ff;
+    color: #000;
+}
