@@ -42,7 +42,27 @@ speedSelect.addEventListener("change", function () {
 
 transcriptionContent.addEventListener("input", function () {
     if (transcriptionId.value !== null) {
-        updateTranscription(transcriptionId.value, { content: transcriptionContent.value });
+        const timestamp = audioElement.currentTime.toFixed(2); // Tiempo actual del audio
+        const updatedContent = transcriptionContent.value.trim();
+        const fullContent = transcriptionContent.value.trim(); // Contenido completo
+        const cursorPosition = transcriptionContent.selectionStart; // Posición del cursor
+        const wordsBeforeCursor = 10; // Cantidad de palabras antes del cursor
+
+        // Obtener las palabras anteriores y posteriores al cursor
+        const words = fullContent.split(/\s+/); // Dividir en palabras
+        const index = fullContent.slice(0, cursorPosition).split(/\s+/).length - 1; // Índice de la palabra actual
+
+        // Determinar el rango de palabras relevantes
+        const start = Math.max(0, index - wordsBeforeCursor);
+        const end = Math.min(words.length, index + 1); // Incluir la palabra actual
+        const context = words.slice(start, end).join(" "); // Obtener el contexto
+        updateTranscription(transcriptionId.value, {
+            content: transcriptionContent.value,
+            history: {
+                timestamp: timestamp, // Tiempo en que ocurrió el cambio
+                content: context, // Nuevo contenido
+            },
+        });
     }
 });
 
@@ -141,6 +161,7 @@ function listTranscriptions() {
             <div class="d-flex flex-column gap-2">
                 <button class="btn btn-primary btn-sm load-btn">Cargar</button>
                 <button class="btn btn-danger btn-sm delete-btn">Eliminar</button>
+                <button class="btn btn-success btn-sm history-btn" data-bs-toggle="modal" data-bs-target="#historyModal">Historial</button>
             </div>
         `;
 
@@ -154,6 +175,11 @@ function listTranscriptions() {
             if (confirm("¿Estás seguro de que deseas eliminar esta transcripción?")) {
                 deleteTranscription(transcription.id);
             }
+        });
+
+        listItem.querySelector(".history-btn").addEventListener("click", () => {
+            // Llamar a la función showHistoryModal y pasarle el ID de la transcripción
+            showHistoryModal(transcription.id);
         });
 
         transcriptionsListGroup.appendChild(listItem);
@@ -173,7 +199,7 @@ function loadTranscription(id) {
         transcriptionContent.value = transcription.content;
         transcriptionNotes.value = transcription.notes;
         transcriptionAudio.src = transcription.audioPath;
-    }else{
+    } else {
         clearTranscription();
     }
     listTranscriptions();
@@ -185,4 +211,36 @@ function clearTranscription() {
     transcriptionContent.value = "";
     transcriptionNotes.value = "";
     transcriptionAudio.src = "";
+}
+const historyModal = new bootstrap.Modal(document.getElementById('historyModal'));
+const historyList = document.getElementById("historyList");
+
+// Mostrar el modal de historial
+function showHistoryModal(id) {
+    const transcription = getTranscription(id);
+    
+    if (!transcription || !transcription.history || transcription.history.length === 0) {
+        // Si no hay historial, mostrar un mensaje adecuado
+        document.getElementById("history-list").innerHTML = "<p>No hay historial para esta transcripción.</p>";
+        return;
+    }
+
+    // Limpiar la lista de historial
+    const historyList = document.getElementById("history-list");
+    historyList.innerHTML = "";
+
+    // Recorrer el historial de la transcripción y agregar los elementos al modal
+    transcription.history.reverse().forEach((entry) => {
+        const listItem = document.createElement("li");
+        listItem.classList.add("list-group-item", "d-flex", "gap-3", "py-2");
+
+        listItem.innerHTML = `
+            <div>
+                <p class="mb-0">Cambio: ${entry.content}</p>
+                <small>Tiempo: ${entry.timestamp} segundos</small>
+            </div>
+        `;
+
+        historyList.appendChild(listItem);
+    });
 }

@@ -20,6 +20,7 @@ function saveTranscription(name, notes, content, audioPath) {
         content: content,
         audioPath: audioPath,
         lastModified: new Date().toLocaleString(),
+        history: [],
     };
 
     transcriptionsList.push(newTranscription); // Agregar la nueva transcripción
@@ -29,7 +30,6 @@ function saveTranscription(name, notes, content, audioPath) {
 
 // Actualizar una transcripción existente por ID
 function updateTranscription(id, params) {
-    
     const transcriptionsList = getTranscriptions();
     const transcription = transcriptionsList.find((t) => t.id === id);
 
@@ -39,6 +39,15 @@ function updateTranscription(id, params) {
         transcription.content = params.content || transcription.content;
         transcription.audioPath = params.audioPath || transcription.audioPath;
         transcription.lastModified = new Date().toLocaleString();
+        // Agregar al historial si existe un cambio con timestamp
+        if (params.history) {
+            // Asegurarse de que el campo history exista
+            if (!Array.isArray(transcription.history)) {
+                transcription.history = []; // Inicializar si no existe
+            }
+
+            transcription.history.push(params.history);
+        }
 
         localStorage.setItem("transcriptionsList", JSON.stringify(transcriptionsList)); // Guardar lista actualizada
         listTranscriptions(); // Actualizar la UI

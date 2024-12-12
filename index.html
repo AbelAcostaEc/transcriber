@@ -17,7 +17,7 @@
             </div>
             <div class="row">
                 <div class="col-12 align-items-center text-center mb-4">
-                    <input type="hidden" name="id" id="transcription-id">
+                    <input type="hidden" name="id" id="transcription-id" />
                     <h3 id="transcription-title"></h3>
                     <div class="controls">
                         <div class="audio-player d-flex gap-2">
@@ -65,8 +65,7 @@
             </div>
             <div class="offcanvas-body">
                 <div class="">
-                    <div class="list-group" id="transcriptions-list">
-                    </div>
+                    <div class="list-group" id="transcriptions-list"></div>
                 </div>
             </div>
         </div>
@@ -116,6 +115,26 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="historyModalLabel">Historial de Cambios</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <ul class="list-group" id="history-list">
+                    <!-- El historial de cambios se añadirá aquí -->
+                  </ul>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
 
         <script src="js/bootstrap.bundle.min.js"></script>
         <script src="js/transcription.js"></script>
