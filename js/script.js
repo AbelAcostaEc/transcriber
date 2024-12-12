@@ -233,14 +233,23 @@ function showHistoryModal(id) {
     transcription.history.reverse().forEach((entry) => {
         const listItem = document.createElement("li");
         listItem.classList.add("list-group-item", "d-flex", "gap-3", "py-2");
-
+        const formattedTime = formatTime(entry.timestamp);
         listItem.innerHTML = `
             <div>
                 <p class="mb-0">Cambio: ${entry.content}</p>
-                <small>Tiempo: ${entry.timestamp} segundos</small>
+                <small>Tiempo: ${formattedTime} segundos</small>
             </div>
         `;
 
         historyList.appendChild(listItem);
     });
+}
+
+function formatTime(seconds) {
+    const hours = Math.floor(seconds / 3600); // Calcular las horas
+    const minutes = Math.floor((seconds % 3600) / 60); // Calcular los minutos
+    const remainingSeconds = Math.floor(seconds % 60); // Calcular los segundos restantes
+
+    // Formatear el tiempo como hh:mm:ss
+    return `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
 }
